@@ -1,10 +1,10 @@
-@import 'tailwindcss';
-@custom-variant dark (&:where(.dark, .dark *));
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
 * {
   transition: background-color 0.25s ease, color 0.25s ease;
   }

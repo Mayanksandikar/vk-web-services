@@ -1,3 +1,5 @@
+"use client"; // Add this if you are using Next.js App Router
+
 import { motion } from "framer-motion";
 
 const fadeUp = {
@@ -12,7 +14,8 @@ const fadeUp = {
 
 export default function About() {
   return (
-    <main className="bg-ink text-paper min-h-screen">
+    /* Changed bg-ink to bg-[#0a0a0a] and text-paper to text-[#f5f5f5] */
+    <main className="bg-[#0a0a0a] text-[#f5f5f5] min-h-screen">
       <section className="px-6 md:px-24 py-40 max-w-6xl mx-auto">
         
         {/* SECTION HEADER */}
@@ -31,7 +34,8 @@ export default function About() {
         {/* TWO COLUMN CONTENT */}
         <div className="grid md:grid-cols-2 gap-12 md:gap-24">
           <motion.div {...fadeUp}>
-            <p className="text-muted text-xl leading-relaxed">
+            {/* Changed text-muted to text-zinc-400 */}
+            <p className="text-zinc-400 text-xl leading-relaxed">
               VK Web Services was founded with a simple idea — digital work should feel
               <span className="text-white italic"> considered</span>, not rushed.
             </p>
@@ -42,13 +46,14 @@ export default function About() {
             transition={{ ...fadeUp.whileInView.transition, delay: 0.2 }}
             className="flex flex-col justify-end"
           >
-            <p className="text-muted text-lg leading-relaxed">
+            {/* Changed text-muted to text-zinc-400 */}
+            <p className="text-zinc-400 text-lg leading-relaxed">
               We collaborate closely with clients, understand their real needs, and
               build solutions that stay relevant over time.
             </p>
             
             {/* Minimalist Stat/Info */}
-            <div className="mt-12 pt-8 border-t border-paper/10">
+            <div className="mt-12 pt-8 border-t border-white/10">
               <span className="text-[10px] uppercase tracking-[0.3em] block mb-2">Philosophy</span>
               <p className="text-sm italic opacity-50">Precision over Speed. Strategy over Trends.</p>
             </div>
@@ -56,7 +61,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* OPTIONAL: A "IMAGE MASK" SECTION (VERY MODERN) */}
+      {/* OPTIONAL: A "IMAGE MASK" SECTION */}
       <section className="px-6 md:px-24 py-20">
          <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
@@ -65,7 +70,6 @@ export default function About() {
             viewport={{ once: true }}
             className="h-[60vh] w-full bg-zinc-900 rounded-sm overflow-hidden"
          >
-            {/* Placeholder for a high-quality atmospheric image */}
             <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 grayscale hover:grayscale-0 transition-all duration-1000" />
          </motion.div>
       </section>

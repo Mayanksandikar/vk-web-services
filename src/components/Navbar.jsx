@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,12 +31,15 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Toggle background on scroll
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "auto";
+  }, [open]);
 
   const toggleMenu = () => setOpen(!open);
 
@@ -48,59 +53,59 @@ export default function Navbar() {
   ];
 
   return (
-    <nav 
-      className={`fixed top-0 w-full z-[100] px-6 md:px-12 py-5 flex justify-between items-center transition-all duration-300 ${
-        scrolled ? "bg-black/20 backdrop-blur-lg border-b border-white/10 py-4" : "bg-transparent"
-      }`}
-    >
-      {/* Brand */}
-      <Link 
-        to="/" 
-        className="font-serif text-2xl tracking-tighter z-[101] mix-blend-difference text-white"
+    <>
+      <nav 
+        className={`fixed top-0 w-full z-[100] px-6 md:px-12 py-5 flex justify-between items-center transition-all duration-500 ${
+          scrolled 
+            ? "bg-[#0a0a0a]/80 backdrop-blur-lg border-b border-white/5 py-4" 
+            : "bg-transparent"
+        }`}
       >
-        VK<span className="italic opacity-50">.WS</span>
-      </Link>
+        {/* Brand - Changed text color to white/lime */}
+        <Link to="/" className="flex items-center gap-2 z-[101] font-black text-2xl tracking-tighter text-white">
+          VK<span className="text-lime-400">.WS</span>
+        </Link>
 
-      <div className="flex items-center gap-8 z-[101]">
-        {/* Desktop Links */}
-        <div className="hidden md:flex gap-10 text-[11px] uppercase tracking-[0.2em] font-medium mix-blend-difference text-white">
+        {/* --- DESKTOP NAVIGATION --- */}
+        <div className="hidden md:flex gap-10 text-[11px] uppercase tracking-[0.2em] font-bold text-zinc-300">
           {navLinks.map((link, i) => (
             <Link key={i} to={link.href} className="group relative overflow-hidden">
-              <span className="block group-hover:-translate-y-full transition-transform duration-500 italic">
+              <span className="block group-hover:-translate-y-full transition-transform duration-500">
                 {link.title}
               </span>
-              <span className="absolute top-0 left-0 block translate-y-full group-hover:translate-y-0 transition-transform duration-500 font-bold text-white">
+              <span className="absolute top-0 left-0 block translate-y-full group-hover:translate-y-0 transition-transform duration-500 text-lime-400 font-black italic">
                 {link.title}
               </span>
             </Link>
           ))}
         </div>
-        
-        <div className="flex items-center gap-4">
-          <ThemeToggle />
 
-          {/* Hamburger Menu Toggle */}
+        {/* --- ACTIONS --- */}
+        <div className="flex items-center gap-6 z-[101]">
+          <ThemeToggle />
+          
+          {/* Hamburger Icon - Responsive colors */}
           <button 
             onClick={toggleMenu} 
-            className="group flex flex-col gap-1.5 justify-center items-center p-2"
+            className="flex flex-col gap-1.5 justify-center items-center outline-none group"
           >
-            <motion.span 
-              animate={{ rotate: open ? 45 : 0, y: open ? 7 : 0, backgroundColor: open ? "#f5f5f5" : "#ffffff" }} 
-              className="w-6 h-[1.5px] bg-white mix-blend-difference" 
+            <motion.div 
+              animate={{ rotate: open ? 45 : 0, y: open ? 7.5 : 0 }} 
+              className={`w-7 h-[2px] transition-colors ${open ? 'bg-white' : 'bg-lime-400'}`} 
             />
-            <motion.span 
-              animate={{ scaleX: open ? 0 : 1 }} 
-              className="w-6 h-[1.5px] bg-white origin-right mix-blend-difference" 
+            <motion.div 
+              animate={{ opacity: open ? 0 : 1 }} 
+              className="w-7 h-[2px] bg-white" 
             />
-            <motion.span 
-              animate={{ rotate: open ? -45 : 0, y: open ? -7 : 0, backgroundColor: open ? "#f5f5f5" : "#ffffff" }} 
-              className="w-6 h-[1.5px] bg-white mix-blend-difference" 
+            <motion.div 
+              animate={{ rotate: open ? -45 : 0, y: open ? -7.5 : 0 }} 
+              className={`w-7 h-[2px] transition-colors ${open ? 'bg-white' : 'bg-lime-400'}`} 
             />
           </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Full Screen Menu Overlay */}
+      {/* --- MOBILE FULLSCREEN MENU --- */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -108,43 +113,33 @@ export default function Navbar() {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="fixed left-0 top-0 w-full h-screen bg-[#0a0a0a] text-[#f5f5f5] origin-top p-10 flex flex-col justify-center items-center"
+            // Using a slightly different dark shade for the menu overlay
+            className="fixed inset-0 w-full h-screen bg-[#050505] z-[99] origin-top flex flex-col justify-center items-center p-10"
           >
             <motion.div
               variants={linkContainerVars}
               initial="initial"
               animate="open"
               exit="initial"
-              className="flex flex-col gap-6 items-center"
+              className="flex flex-col gap-4 items-center"
             >
               {navLinks.map((link, index) => (
-                <div key={index} className="overflow-hidden">
-                  <motion.div 
-                    variants={linkVars} 
-                    className="text-5xl md:text-8xl font-serif hover:italic transition-all duration-300"
-                  >
-                    <Link to={link.href} onClick={toggleMenu}>
+                <div key={index} className="overflow-hidden py-1">
+                  <motion.div variants={linkVars}>
+                    <Link 
+                      to={link.href} 
+                      onClick={toggleMenu}
+                      className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-white hover:text-lime-400 hover:italic transition-all duration-300 block"
+                    >
                       {link.title}
                     </Link>
                   </motion.div>
                 </div>
               ))}
             </motion.div>
-            
-            {/* Bottom Menu Info */}
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              transition={{ delay: 1 }}
-              className="absolute bottom-10 flex gap-10 text-[10px] uppercase tracking-widest opacity-40"
-            >
-              <p>Instagram</p>
-              <p>Twitter</p>
-              <p>LinkedIn</p>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }

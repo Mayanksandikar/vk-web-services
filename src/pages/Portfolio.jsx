@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 
 const projects = [
@@ -20,7 +22,8 @@ const projects = [
     title: "Kinetic Lab", 
     category: "IT Solutions", 
     size: "md:col-span-1",
-    img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=1631&auto=format&fit=crop" 
+    // REPLACED BROKEN IMAGE URL BELOW
+    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1470&auto=format&fit=crop" 
   },
   { 
     id: 4, 
@@ -31,18 +34,17 @@ const projects = [
   },
 ];
 
-// This creates the "sliding curtain" reveal effect
 const revealVariants = {
   initial: { x: "0%" },
   whileInView: { 
     x: "100%", 
-    transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } 
+    transition: { duration: 1.2, ease: [0.77, 0, 0.175, 1] } 
   }
 };
 
 export default function Portfolio() {
   return (
-    <section className="bg-[#0a0a0a] text-[#f4f4f4] px-6 md:px-24 py-40">
+    <section className="bg-[#121212] text-[#f4f4f4] px-6 md:px-24 py-40">
       <div className="flex flex-col md:flex-row justify-between items-end mb-32 gap-8">
         <div className="space-y-4">
           <span className="text-[10px] uppercase tracking-[0.5em] text-gray-500 block">— Our Portfolio</span>
@@ -51,7 +53,7 @@ export default function Portfolio() {
             whileInView={{ opacity: 1, y: 0 }}
             className="font-serif text-6xl md:text-9xl tracking-tighter leading-none"
           >
-            Selected <br /> <span className="italic font-light opacity-50 text-[5xl] md:text-8xl">Works</span>
+            Selected <br /> <span className="italic font-light opacity-50">Works</span>
           </motion.h2>
         </div>
         
@@ -65,12 +67,10 @@ export default function Portfolio() {
           <motion.div 
             key={project.id}
             className={`${project.size} group relative`}
-            viewport={{ once: true, margin: "-10%" }}
           >
-            {/* Image Wrapper */}
             <div className="overflow-hidden bg-[#111] aspect-[16/10] md:aspect-auto md:h-[550px] relative rounded-sm">
               
-              {/* The "Curtain" Reveal Animation */}
+              {/* Animation Layer */}
               <motion.div 
                 variants={revealVariants}
                 initial="initial"
@@ -85,37 +85,28 @@ export default function Portfolio() {
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 src={project.img}
                 alt={project.title}
-                className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+                // Added object-center for better cropping
+                className="w-full h-full object-cover object-center grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
               />
               
-              {/* Subtle Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-700" />
             </div>
 
-            {/* Content Details */}
             <div className="mt-8 flex justify-between items-end border-b border-white/5 pb-4">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-gray-500 mb-1 block">
+                <span className="text-[10px] uppercase tracking-widest text-lime-500 mb-1 block">
                   {project.category}
                 </span>
                 <h3 className="text-2xl md:text-3xl font-serif group-hover:italic transition-all duration-500">
                   {project.title}
                 </h3>
               </div>
-              <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+              <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-lime-500 group-hover:text-black group-hover:border-lime-500 transition-all duration-500">
                 <span className="text-sm">↗</span>
               </div>
             </div>
           </motion.div>
         ))}
-      </div>
-
-      {/* FOOTER CTA IN PORTFOLIO */}
-      <div className="mt-40 text-center">
-        <p className="text-gray-500 uppercase tracking-widest text-[10px] mb-6">Want to see more?</p>
-        <button className="text-3xl md:text-5xl font-serif italic hover:not-italic transition-all duration-500">
-          Get in touch for a full deck.
-        </button>
       </div>
     </section>
   );

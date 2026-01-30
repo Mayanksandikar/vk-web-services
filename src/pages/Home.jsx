@@ -126,10 +126,6 @@ export default function Home() {
                   <h3 className="text-4xl font-black text-white">Next-Gen FinTech UI</h3>
                </div>
             </motion.div>
-            <div className="md:col-span-4 bg-zinc-100 rounded-3xl p-10 flex flex-col justify-center">
-              <h4 className="text-2xl font-bold mb-4 italic">"The most professional team we've worked with."</h4>
-              <p className="text-zinc-500">— CTO, TechFlow Systems</p>
-            </div>
           </div>
         </div>
       </section>
